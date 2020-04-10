@@ -1,1 +1,48 @@
-<p>home works!</p>
+<h2>New Issue</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" formControlName="title" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+        <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+            <div *ngIf="f.title.errors.required">Title is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" formControlName="description" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.description.errors }" />
+        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+            <div *ngIf="f.description.errors.required">Description is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="type">Type</label>
+        <select (change)="onSelect($event.target.value)" formControlName="type" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+            <option value="0">--Select--</option>
+            <option *ngFor="let type of types" value={{type.id}}>{{type.value}}</option>
+        </select>
+        <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+            <div *ngIf="f.type.errors.required">Type is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="sub_type">Sub Type</label>
+        <select formControlName="sub_type" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.sub_type.errors }">
+            <option value="0">--Select--</option>
+            <option *ngFor="let subType of subTypes " value={{subType.id}}>{{subType.value}}</option>
+        </select>
+        <div *ngIf="submitted && f.sub_type.errors" class="invalid-feedback">
+            <div *ngIf="f.sub_type.errors.required">Sub Type is required</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Submit
+        </button>
+        <a routerLink="/home" class="btn btn-link">Cancel</a>
+    </div>
+</form>
