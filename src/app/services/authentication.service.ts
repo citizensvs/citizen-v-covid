@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -20,9 +20,13 @@ export class AuthenticationService {
     }
 
     login(username, password) {
-      const proxyurl = "https://cors-anywhere.herokuapp.com/";
-      const url = "https://api.cvc19.penciljar.studio/api/v1/auth/login/";
-        return this.http.post<any>(proxyurl + url, { username, password })
+        const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        const url = "https://api.cvc19.penciljar.studio/api/v1/auth/login/";
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
+        let options = { headers: headers };
+        return this.http.post<any>(proxyurl + url, { username, password },options)
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
